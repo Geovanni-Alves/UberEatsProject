@@ -1,2 +1,1 @@
-# Drop-off-GB
 # UberEatsProject
