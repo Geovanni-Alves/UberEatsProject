@@ -1,22 +1,20 @@
 import { View, Text, TextInput, StyleSheet, Button, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Auth, DataStore } from 'aws-amplify';
-import { User } from '../../models';
+import { Auth, DataStore } from "aws-amplify";
+import { User } from "../../models";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useNavigation } from "@react-navigation/native";
-//import '@azure/core-asynciterator-polyfill';
-//import 'core-js/full/symbol/async-iterator';
 
 const Profile = () => {
-  const {dbUser} = useAuthContext();
-  //console.log(dbUser);
+  const { dbUser } = useAuthContext();
+
   const [name, setName] = useState(dbUser?.name || "");
   const [address, setAddress] = useState(dbUser?.address || "");
-  const [lat, setLat] = useState((dbUser?.lat + "") || "0");
-  const [lng, setLng] = useState((dbUser?.lng + "") || "0");
+  const [lat, setLat] = useState(dbUser?.lat + "" || "0");
+  const [lng, setLng] = useState(dbUser?.lng + "" || "0");
 
-  const {sub, setDbUser} = useAuthContext();
+  const { sub, setDbUser } = useAuthContext();
 
   const navigation = useNavigation();
 
@@ -40,14 +38,15 @@ const Profile = () => {
     );
     setDbUser(user);
   };
+
   const createUser = async () => {
     try {
       const user = await DataStore.save(
         new User({
-          name, 
-          address, 
-          lat:parseFloat(lat), 
-          lng:parseFloat(lng), 
+          name,
+          address,
+          lat: parseFloat(lat),
+          lng: parseFloat(lng),
           sub,
         })
       );
@@ -86,7 +85,10 @@ const Profile = () => {
         style={styles.input}
       />
       <Button onPress={onSave} title="Save" />
-      <Text onPress={() => Auth.signOut()} style={{ textAlign: 'center', color: 'red', margin: 10, fontSize: 16 }}>
+      <Text
+        onPress={() => Auth.signOut()}
+        style={{ textAlign: "center", color: "red", margin: 10 }}
+      >
         Sign out
       </Text>
     </SafeAreaView>

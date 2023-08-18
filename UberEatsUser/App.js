@@ -1,3 +1,4 @@
+import 'core-js/full/symbol/async-iterator';
 import { StatusBar } from 'expo-status-bar';
 import RootNavigator from './src/navigation';
 import { NavigationContainer } from '@react-navigation/native'
@@ -5,7 +6,7 @@ import { withAuthenticator, useAuthenticator } from '@aws-amplify/ui-react-nativ
 import AuthContextProvider from './src/contexts/AuthContext';
 import BasketContextProvider from './src/contexts/BasketContext';
 import OrderContextProvider from './src/contexts/OrderContext';
-import 'core-js/full/symbol/async-iterator';
+
 //import '@azure/core-asynciterator-polyfill';
 import { Analytics, DataStore } from 'aws-amplify';
 

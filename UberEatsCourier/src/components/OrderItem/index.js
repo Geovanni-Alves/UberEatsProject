@@ -3,7 +3,7 @@ import { Entypo } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
 import { useState, useEffect } from "react";
 import { DataStore } from "aws-amplify";
-import {User} from '../../models';
+import { User } from '../../models';
 
 const OrderItem = ({ order }) => {
   const [user, setUser] = useState(null);

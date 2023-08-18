@@ -1,3 +1,17 @@
+enum TransportationModes {
+  DRIVING
+  BICYCLING
+}
+
+type Driver @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String!
+  sub: String!
+  lat: Float
+  lng: Float
+  transportationMode: TransportationModes!
+}
+
 enum OrderStatus {
   NEW
   COOKING
@@ -17,11 +31,12 @@ type OrderDish @model @auth(rules: [{allow: public}]) {
 
 type Order @model @auth(rules: [{allow: public}]) {
   id: ID!
-  userID: ID! @index(name: "byUser")
+  userID: ID @index(name: "byUser")
   Restaurant: Restaurant @hasOne
   total: Float!
   status: OrderStatus!
   OrderDishes: [OrderDish] @hasMany(indexName: "byOrder", fields: ["id"])
+  Driver: Driver @hasOne
 }
 
 type BasketDish @model @auth(rules: [{allow: public}]) {
@@ -30,14 +45,14 @@ type BasketDish @model @auth(rules: [{allow: public}]) {
   dishPrice: Float
   dishName: String
   Dish: Dish @hasOne
-  basketID: ID! @index(name: "byBasket")
+  basketID: ID @index(name: "byBasket")
 }
 
 type Basket @model @auth(rules: [{allow: public}]) {
   id: ID!
   BasketDishes: [BasketDish] @hasMany(indexName: "byBasket", fields: ["id"])
-  userID: ID! @index(name: "byUser")
-  restaurantID: ID! @index(name: "byRestaurant")
+  userID: ID @index(name: "byUser")
+  restaurantID: ID @index(name: "byRestaurant")
 }
 
 type User @model @auth(rules: [{allow: public}]) {
@@ -57,7 +72,7 @@ type Dish @model @auth(rules: [{allow: public}]) {
   image: String
   description: String
   price: Float!
-  restaurantID: ID! @index(name: "byRestaurant")
+  restaurantID: ID @index(name: "byRestaurant")
 }
 
 type Restaurant @model @auth(rules: [{allow: public}]) {

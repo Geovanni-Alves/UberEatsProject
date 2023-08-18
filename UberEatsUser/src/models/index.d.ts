@@ -2,6 +2,11 @@ import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier } from "@aws-
 // @ts-ignore
 import { LazyLoading, LazyLoadingDisabled, AsyncItem, AsyncCollection } from "@aws-amplify/datastore";
 
+export enum TransportationModes {
+  DRIVING = "DRIVING",
+  BICYCLING = "BICYCLING"
+}
+
 export enum OrderStatus {
   NEW = "NEW",
   COOKING = "COOKING",
@@ -11,6 +16,42 @@ export enum OrderStatus {
 }
 
 
+
+type EagerDriver = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Driver, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly name: string;
+  readonly sub: string;
+  readonly lat?: number | null;
+  readonly lng?: number | null;
+  readonly transportationMode: TransportationModes | keyof typeof TransportationModes;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyDriver = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Driver, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly name: string;
+  readonly sub: string;
+  readonly lat?: number | null;
+  readonly lng?: number | null;
+  readonly transportationMode: TransportationModes | keyof typeof TransportationModes;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type Driver = LazyLoading extends LazyLoadingDisabled ? EagerDriver : LazyDriver
+
+export declare const Driver: (new (init: ModelInit<Driver>) => Driver) & {
+  copyOf(source: Driver, mutator: (draft: MutableModel<Driver>) => MutableModel<Driver> | void): Driver;
+}
 
 type EagerOrderDish = {
   readonly [__modelMeta__]: {
@@ -56,14 +97,16 @@ type EagerOrder = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly userID: string;
+  readonly userID?: string | null;
   readonly Restaurant?: Restaurant | null;
   readonly total: number;
   readonly status: OrderStatus | keyof typeof OrderStatus;
   readonly OrderDishes?: (OrderDish | null)[] | null;
+  readonly Driver?: Driver | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly orderRestaurantId?: string | null;
+  readonly orderDriverId?: string | null;
 }
 
 type LazyOrder = {
@@ -72,14 +115,16 @@ type LazyOrder = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly userID: string;
+  readonly userID?: string | null;
   readonly Restaurant: AsyncItem<Restaurant | undefined>;
   readonly total: number;
   readonly status: OrderStatus | keyof typeof OrderStatus;
   readonly OrderDishes: AsyncCollection<OrderDish>;
+  readonly Driver: AsyncItem<Driver | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly orderRestaurantId?: string | null;
+  readonly orderDriverId?: string | null;
 }
 
 export declare type Order = LazyLoading extends LazyLoadingDisabled ? EagerOrder : LazyOrder
@@ -98,7 +143,7 @@ type EagerBasketDish = {
   readonly dishPrice?: number | null;
   readonly dishName?: string | null;
   readonly Dish?: Dish | null;
-  readonly basketID: string;
+  readonly basketID?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly basketDishDishId?: string | null;
@@ -114,7 +159,7 @@ type LazyBasketDish = {
   readonly dishPrice?: number | null;
   readonly dishName?: string | null;
   readonly Dish: AsyncItem<Dish | undefined>;
-  readonly basketID: string;
+  readonly basketID?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly basketDishDishId?: string | null;
@@ -133,8 +178,8 @@ type EagerBasket = {
   };
   readonly id: string;
   readonly BasketDishes?: (BasketDish | null)[] | null;
-  readonly userID: string;
-  readonly restaurantID: string;
+  readonly userID?: string | null;
+  readonly restaurantID?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -146,8 +191,8 @@ type LazyBasket = {
   };
   readonly id: string;
   readonly BasketDishes: AsyncCollection<BasketDish>;
-  readonly userID: string;
-  readonly restaurantID: string;
+  readonly userID?: string | null;
+  readonly restaurantID?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -208,7 +253,7 @@ type EagerDish = {
   readonly image?: string | null;
   readonly description?: string | null;
   readonly price: number;
-  readonly restaurantID: string;
+  readonly restaurantID?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -223,7 +268,7 @@ type LazyDish = {
   readonly image?: string | null;
   readonly description?: string | null;
   readonly price: number;
-  readonly restaurantID: string;
+  readonly restaurantID?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

@@ -9,18 +9,25 @@ const OrderContext = createContext({});
 
 const OrderContextProvider = ({ children }) => {
   const { dbUser } = useAuthContext();
+
   const { restaurant, totalPrice, basketDishes, basket } = useBasketContext();
   
   const [ orders, setOrders ] = useState([]);
 
 
+
   useEffect(() => {
-    console.log('useEffect dispared',dbUser);
-    DataStore
-      .query(Order, (o) => o.userID.eq(dbUser.id))
-      .then(setOrders);
+    if (dbUser) {
+      //console.log('useEffect dispared',dbUser);
+      DataStore
+        .query(Order, (o) => o.userID.eq(dbUser.id))
+        .then(setOrders);
+    }
   },[dbUser]);
 
+  if (!dbUser) {
+    return <ActivityIndicator size={"large"} color="gray"/>
+  }
 
   const createOrder = async () => {
     //console.warn("abs");

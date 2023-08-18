@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect, useContext } from 'react';
 import { DataStore } from 'aws-amplify';
-import { Basket, BasketDish, Dish } from '../models';
+import { Basket, BasketDish} from '../models';
 import { useAuthContext } from './AuthContext';
 //import '@azure/core-asynciterator-polyfill';
 //import 'core-js/full/symbol/async-iterator';
@@ -15,31 +15,36 @@ const BasketContextProvider = ({ children }) => {
   
   
   const totalPrice = basketDishes.reduce(
-    (sum, basketDish) => sum + basketDish.quantity * basketDish.dishPrice,restaurant?.deliveryFee
+    (sum, basketDish) => sum + basketDish.quantity * basketDish.dishPrice,
+    restaurant?.deliveryFee
   );
   
+  const getDataBasket = async () => {
+    const dataBasket = await DataStore
+    .query(Basket, (b) => b.and (b => [ 
+      b.restaurantID.eq(restaurant.id),
+      b.userID.eq(dbUser.id)]
+    ));
+    console.log(dataBasket);
+  }
   
-  
-  useEffect(()  => {
-    DataStore
-      .query(Basket, (b) => b.and (b => [ 
-        b.restaurantID.eq(restaurant?.id),
-        b.userID.eq(dbUser?.id)]
-      ))
-      .then(baskets => setBasket(baskets[0]));
-  },[dbUser, restaurant]);
+
+
+  useEffect(() => {
+    getDataBasket()
+    //console.log(getDataBasket())
+  }
+  ,[dbUser, restaurant]);
  
 
   useEffect(() => {
     if (basket) {
       //console.log("id do basket atual :", basket.id);
-      DataStore
-        .query(BasketDish, (bd) => bd.basketID.eq(basket.id))
-        .then(setBasketDishes) 
-      ;
-     //console.log("resultado query do basketDishes",basketDishes);
+      const data = DataStore.query(BasketDish, bd => bd.basketID.eq(basket.id));
+      
     }
   },[basket])
+
   
 
   const addDishToBasket = async (dish, quantity) => {
@@ -52,13 +57,12 @@ const BasketContextProvider = ({ children }) => {
     const newDish = await DataStore.save(
       new BasketDish({ 
         quantity, 
-        dishPrice: dish.price,
-        dishName: dish.name,
-        Dish: dish,
-        basketID: theBasket.id 
+        Dish: dish, 
+        basketID: theBasket.id, 
       })
     );
-    setBasketDishes([...basketDishes,newDish]);
+
+    setBasketDishes([...basketDishes, newDish]);
   };
 
   const createNewBasket = async () => {

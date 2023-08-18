@@ -5,7 +5,12 @@ import { NavigationContainer } from "@react-navigation/native";
 import 'core-js/full/symbol/async-iterator';
 import { withAuthenticator, useAuthenticator } from '@aws-amplify/ui-react-native';
 import AuthContextProvider from "./src/contexts/AuthContext";
+import { DataStore } from 'aws-amplify';
+import { ExpoSQLiteAdapter } from '@aws-amplify/datastore-storage-adapter/ExpoSQLiteAdapter';
 
+DataStore.configure({
+  storageAdapter: ExpoSQLiteAdapter
+});
 
 // Aws Amplify config 
 import { Amplify } from '@aws-amplify/core';
