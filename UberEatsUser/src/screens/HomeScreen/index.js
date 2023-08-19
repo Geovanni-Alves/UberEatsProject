@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { StyleSheet, FlatList, View} from 'react-native';
 import RestaurantItem from '../../components/RestaurantItem';
 import { Restaurant } from '../../models';
-import { DataStore } from 'aws-amplify';
+import { DataStore } from "@aws-amplify/datastore";
 //import 'core-js/full/symbol/async-iterator';
 //import '@azure/core-asynciterator-polyfill';
 //import 'core-js/full/symbol/async-iterator';

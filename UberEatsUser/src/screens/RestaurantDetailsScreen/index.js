@@ -5,7 +5,7 @@ import DishListItem from "../../components/DishListItem";
 import Header  from "./Header";
 import styles from './styles';
 import { useRoute, useNavigation } from '@react-navigation/native';
-import { DataStore } from 'aws-amplify';
+import { DataStore } from "@aws-amplify/datastore";
 import { Restaurant, Dish } from "../../models";
 import { useBasketContext } from "../../contexts/BasketContext";
 //import '@azure/core-asynciterator-polyfill';

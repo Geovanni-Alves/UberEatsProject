@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { ActivityIndicator } from "react-native";
-import { DataStore } from "aws-amplify";
+import { DataStore } from "@aws-amplify/datastore";
 import { Order, OrderDish } from '../models';
 import { useAuthContext } from "./AuthContext";
 import { useBasketContext } from "./BasketContext";
@@ -25,9 +24,6 @@ const OrderContextProvider = ({ children }) => {
     }
   },[dbUser]);
 
-  if (!dbUser) {
-    return <ActivityIndicator size={"large"} color="gray"/>
-  }
 
   const createOrder = async () => {
     //console.warn("abs");

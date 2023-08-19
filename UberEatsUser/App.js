@@ -1,3 +1,4 @@
+import '@azure/core-asynciterator-polyfill';
 import 'core-js/full/symbol/async-iterator';
 import { StatusBar } from 'expo-status-bar';
 import RootNavigator from './src/navigation';
@@ -7,19 +8,15 @@ import AuthContextProvider from './src/contexts/AuthContext';
 import BasketContextProvider from './src/contexts/BasketContext';
 import OrderContextProvider from './src/contexts/OrderContext';
 
+
 //import '@azure/core-asynciterator-polyfill';
-import { Analytics, DataStore } from 'aws-amplify';
 
 // Aws Amplify config 
-import { Amplify } from '@aws-amplify/core';
-import config from './src/aws-exports';
-Amplify.configure({
-  ...config,
-  Analytics: {
-    disabled: true,
-    },
-});
-
+import Amplify from '@aws-amplify/core'
+import { Auth } from '@aws-amplify/auth'
+import awsExports from './src/aws-exports';
+Amplify.configure(awsExports);
+Auth.configure(awsExports);
 
 
 function App() {

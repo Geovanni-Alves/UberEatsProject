@@ -9,9 +9,11 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@aws-amplify/datastore": "^4.7.0",
-    "@aws-amplify/datastore-storage-adapter": "^2.0.43",
-    "@aws-amplify/ui-react-native": "^1.2.23",
+    "@aws-amplify/core": "^5.8.2",
+    "@aws-amplify/datastore": "^4.7.2",
+    "@aws-amplify/datastore-storage-adapter": "^2.0.45",
+    "@aws-amplify/ui-react-native": "^1.2.25",
+    "@azure/core-asynciterator-polyfill": "^1.0.2",
     "@react-native-async-storage/async-storage": "1.18.2",
     "@react-native-community/netinfo": "9.3.10",
     "@react-navigation/bottom-tabs": "^6.5.8",
@@ -21,7 +23,7 @@
     "@react-navigation/stack": "^6.3.17",
     "@types/react": "~18.2.14",
     "amazon-cognito-identity-js": "^6.3.1",
-    "aws-amplify": "^5.3.6",
+    "aws-amplify": "^5.3.8",
     "core-js": "^3.32.0",
     "expo": "~49.0.5",
     "expo-file-system": "~15.4.3",

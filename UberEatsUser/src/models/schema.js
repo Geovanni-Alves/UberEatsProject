@@ -122,19 +122,17 @@ export const schema = {
                 },
                 "Dish": {
                     "name": "Dish",
-                    "isArray": false,
+                    "isArray": true,
                     "type": {
                         "model": "Dish"
                     },
                     "isRequired": false,
                     "attributes": [],
+                    "isArrayNullable": true,
                     "association": {
-                        "connectionType": "HAS_ONE",
+                        "connectionType": "HAS_MANY",
                         "associatedWith": [
-                            "id"
-                        ],
-                        "targetNames": [
-                            "orderDishDishId"
+                            "orderdishID"
                         ]
                     }
                 },
@@ -160,13 +158,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isReadOnly": true
-                },
-                "orderDishDishId": {
-                    "name": "orderDishDishId",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": false,
-                    "attributes": []
                 }
             },
             "syncable": true,
@@ -386,19 +377,17 @@ export const schema = {
                 },
                 "Dish": {
                     "name": "Dish",
-                    "isArray": false,
+                    "isArray": true,
                     "type": {
                         "model": "Dish"
                     },
                     "isRequired": false,
                     "attributes": [],
+                    "isArrayNullable": true,
                     "association": {
-                        "connectionType": "HAS_ONE",
+                        "connectionType": "HAS_MANY",
                         "associatedWith": [
-                            "id"
-                        ],
-                        "targetNames": [
-                            "basketDishDishId"
+                            "basketdishID"
                         ]
                     }
                 },
@@ -424,13 +413,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": [],
                     "isReadOnly": true
-                },
-                "basketDishDishId": {
-                    "name": "basketDishDishId",
-                    "isArray": false,
-                    "type": "ID",
-                    "isRequired": false,
-                    "attributes": []
                 }
             },
             "syncable": true,
@@ -601,7 +583,7 @@ export const schema = {
                 "lng": {
                     "name": "lng",
                     "isArray": false,
-                    "type": "String",
+                    "type": "Float",
                     "isRequired": true,
                     "attributes": []
                 },
@@ -731,6 +713,20 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "basketdishID": {
+                    "name": "basketdishID",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "orderdishID": {
+                    "name": "orderdishID",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -761,6 +757,24 @@ export const schema = {
                         "name": "byRestaurant",
                         "fields": [
                             "restaurantID"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byBasketDish",
+                        "fields": [
+                            "basketdishID"
+                        ]
+                    }
+                },
+                {
+                    "type": "key",
+                    "properties": {
+                        "name": "byOrderDish",
+                        "fields": [
+                            "orderdishID"
                         ]
                     }
                 },
@@ -951,5 +965,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "4633223adc2873bd7e2a098a9ad9d560"
+    "version": "0c19094dd76a27f189728b7ea40c279a"
 };
