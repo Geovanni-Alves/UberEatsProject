@@ -1,7 +1,8 @@
 import { createContext, useState, useEffect, useContext } from "react";
-import { DataStore } from "@aws-amplify/datastore";
+import { DataStore } from 'aws-amplify';
 import { Auth } from 'aws-amplify'; 
 import { User } from '../models';
+import '@azure/core-asynciterator-polyfill';
 //import '@azure/core-asynciterator-polyfill';
 //import 'core-js/full/symbol/async-iterator';
 

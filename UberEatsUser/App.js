@@ -1,5 +1,4 @@
 import '@azure/core-asynciterator-polyfill';
-import 'core-js/full/symbol/async-iterator';
 import { StatusBar } from 'expo-status-bar';
 import RootNavigator from './src/navigation';
 import { NavigationContainer } from '@react-navigation/native'
@@ -12,11 +11,9 @@ import OrderContextProvider from './src/contexts/OrderContext';
 //import '@azure/core-asynciterator-polyfill';
 
 // Aws Amplify config 
-import Amplify from '@aws-amplify/core'
-import { Auth } from '@aws-amplify/auth'
+import { Amplify } from 'aws-amplify';
 import awsExports from './src/aws-exports';
 Amplify.configure(awsExports);
-Auth.configure(awsExports);
 
 
 function App() {
@@ -24,9 +21,9 @@ function App() {
     <NavigationContainer>
       <AuthContextProvider>
         <BasketContextProvider>
-          <OrderContextProvider>
+          {/* <OrderContextProvider> */}
             <RootNavigator />
-          </OrderContextProvider>
+          {/* </OrderContextProvider> */}
         </BasketContextProvider>
       </AuthContextProvider>
       

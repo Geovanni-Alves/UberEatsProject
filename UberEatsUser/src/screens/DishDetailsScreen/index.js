@@ -1,11 +1,12 @@
+import '@azure/core-asynciterator-polyfill';
 import { useState, useEffect } from 'react';
 import { View,Text,StyleSheet, Pressable, ActivityIndicator } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { DataStore } from "@aws-amplify/datastore";
+import { DataStore } from 'aws-amplify';
 import { Dish } from '../../models';
 import { useBasketContext } from '../../contexts/BasketContext';
-//import '@azure/core-asynciterator-polyfill';
+
 //import 'core-js/full/symbol/async-iterator';
 
 const DishDetailsScreen = () => {

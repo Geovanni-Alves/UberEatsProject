@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 //const restaurant = restaurants[0];
 
 const BasketScreen = () => {
-  const { restaurant, basketDishes, totalPrice } = useBasketContext();
+  const { restaurant, basketDishes, totalPrice, dishes } = useBasketContext();
   const { createOrder } = useOrderContext();
   const navigation = useNavigation();
 
@@ -16,7 +16,7 @@ const BasketScreen = () => {
     await createOrder();
     navigation.goBack();
   }
-
+  console.log(dishes)
   //console.log(totalPrice);
   return (
   <View style={styles.page}>
@@ -25,6 +25,7 @@ const BasketScreen = () => {
     
     <FlatList 
       data={basketDishes} 
+      keyExtractor={(item) => item.id}
       renderItem={({ item }) => <BasketDishItem basketDish={item}/>}
     />
 

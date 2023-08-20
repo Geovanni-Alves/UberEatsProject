@@ -1,8 +1,9 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { DataStore } from "@aws-amplify/datastore";
+import { DataStore } from 'aws-amplify';
 import { Order, OrderDish } from '../models';
 import { useAuthContext } from "./AuthContext";
 import { useBasketContext } from "./BasketContext";
+import '@azure/core-asynciterator-polyfill';
 
 const OrderContext = createContext({});
 
