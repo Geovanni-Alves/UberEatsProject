@@ -10,7 +10,7 @@ const BasketScreen = () => {
   const { createOrder } = useOrderContext();
   const navigation = useNavigation();
 
-  console.log("basketDishes:", basketDishes);
+  //console.log("basketDishes:", basketDishes);
   const onCreateOrder = async () => {
     await createOrder();
     navigation.goBack();

@@ -60,13 +60,13 @@ type Order @model @auth(rules: [{allow: public}]) {
   status: OrderStatus
   OrderDishes: [OrderDish] @hasMany(indexName: "byOrder", fields: ["id"])
   Restaurant: Restaurant @hasOne
-  useID: ID! @index(name: "byUser")
+  userID: ID! @index(name: "byUser")
 }
 
 type Basket @model @auth(rules: [{allow: public}]) {
   id: ID!
   BasketDishes: [BasketDish] @hasMany(indexName: "byBasket", fields: ["id"])
-  useID: ID! @index(name: "byUser")
   restaurantID: ID! @index(name: "byRestaurant")
+  userID: ID! @index(name: "byUser")
 }
  

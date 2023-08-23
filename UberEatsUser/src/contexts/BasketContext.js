@@ -65,6 +65,7 @@ const BasketContextProvider = ({ children }) => {
     const newBasket = await DataStore.save(
       new Basket({ 
         userID: dbUser.id, 
+        Dish: dish,
         restaurantID: restaurant.id 
       })
     );

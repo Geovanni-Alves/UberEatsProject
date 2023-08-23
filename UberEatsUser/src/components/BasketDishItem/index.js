@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 const BasketDishItem = ({ basketDish }) => {
-  console.log(basketDish.Dish.Dish.name);
   return (
     <View style={styles.row}>
       <View style={styles.quantityContainer}>

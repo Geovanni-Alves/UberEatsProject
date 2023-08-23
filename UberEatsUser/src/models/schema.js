@@ -57,7 +57,7 @@ export const schema = {
                     "association": {
                         "connectionType": "HAS_MANY",
                         "associatedWith": [
-                            "useID"
+                            "userID"
                         ]
                     }
                 },
@@ -73,7 +73,7 @@ export const schema = {
                     "association": {
                         "connectionType": "HAS_MANY",
                         "associatedWith": [
-                            "useID"
+                            "userID"
                         ]
                     }
                 },
@@ -615,8 +615,8 @@ export const schema = {
                         ]
                     }
                 },
-                "useID": {
-                    "name": "useID",
+                "userID": {
+                    "name": "userID",
                     "isArray": false,
                     "type": "ID",
                     "isRequired": true,
@@ -658,7 +658,7 @@ export const schema = {
                     "properties": {
                         "name": "byUser",
                         "fields": [
-                            "useID"
+                            "userID"
                         ]
                     }
                 },
@@ -706,15 +706,15 @@ export const schema = {
                         ]
                     }
                 },
-                "useID": {
-                    "name": "useID",
+                "restaurantID": {
+                    "name": "restaurantID",
                     "isArray": false,
                     "type": "ID",
                     "isRequired": true,
                     "attributes": []
                 },
-                "restaurantID": {
-                    "name": "restaurantID",
+                "userID": {
+                    "name": "userID",
                     "isArray": false,
                     "type": "ID",
                     "isRequired": true,
@@ -747,18 +747,18 @@ export const schema = {
                 {
                     "type": "key",
                     "properties": {
-                        "name": "byUser",
+                        "name": "byRestaurant",
                         "fields": [
-                            "useID"
+                            "restaurantID"
                         ]
                     }
                 },
                 {
                     "type": "key",
                     "properties": {
-                        "name": "byRestaurant",
+                        "name": "byUser",
                         "fields": [
-                            "restaurantID"
+                            "userID"
                         ]
                     }
                 },
@@ -795,5 +795,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "47a61f82877cd48f908c103869b76e3f"
+    "version": "8035b7a3b4e997b87c6a6bd9d00832e5"
 };
