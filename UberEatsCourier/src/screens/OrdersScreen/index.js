@@ -2,10 +2,10 @@ import { useRef, useMemo, useState, useEffect } from "react";
 import { View, Text, FlatList, useWindowDimensions, } from 'react-native';
 import BottomSheet from "@gorhom/bottom-sheet";
 import OrderItem from "../../components/OrderItem";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { Entypo } from '@expo/vector-icons';
 import { DataStore } from "aws-amplify";
-import { Order } from '../../models';
+import { Order, Restaurant } from '../../models';
 
 const OrdersScreen = () => {
   const [orders, setOrders] = useState([]);
@@ -14,26 +14,20 @@ const OrdersScreen = () => {
   
   const snapPoints = useMemo(() => ["12%", "95%"],[])
   
+
   useEffect(() => {
-    DataStore.query((Order)).then(setOrders);
-  },[]);
+    const fetchOrdersWithRestaurants = async () => {
+      const queriedOrders = await DataStore.query(Order);
+      const orderPromises = queriedOrders.map(async (order) => {
+        const associatedRestaurant = await DataStore.query(Restaurant, order.orderRestaurantId);
+        return { ...order, restaurant: associatedRestaurant };
+      });
+      const ordersWithRestaurants = await Promise.all(orderPromises);
+      setOrders(ordersWithRestaurants);
+    };
 
-  console.log(orders);
-  /*
-  useEffect(() => {
-    (async () => {
-      
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
-        return;
-      }
-
-      let location = await Location.getCurrentPositionAsync({});
-      setDriverLocation(location);
-      
-    })();*/
-
+    fetchOrdersWithRestaurants();
+  }, []);
 
   return (
     <View style={{ backgroundColor: "lightblue", flex: 1}}>
@@ -42,6 +36,7 @@ const OrdersScreen = () => {
           height,
           width,
         }} 
+        //provider={PROVIDER_GOOGLE}
         showsUserLocation={true} 
         followsUserLocation={true}
    
@@ -49,13 +44,13 @@ const OrdersScreen = () => {
         {orders.map((order) => (
           <Marker 
             key={order.id}
-            title={order.Restaurant.name} 
-            description={order.Restaurant.address} 
+            title={order.restaurant.name} 
+            description={order.restaurant.address} 
             coordinate={{
               //latitude: location?.coords.latitude,
               //longitude: location?.coords.longitude,
-              latitude: order.Restaurant.lat, //37.771849, 
-              longitude: order.Restaurant.lng //-122.422899
+              latitude: order.restaurant.lat, //37.771849, 
+              longitude: order.restaurant.lng //-122.422899
             }}
           >
             <View style={{backgroundColor: 'green', padding: 5, borderRadius: 15}}>
@@ -74,7 +69,7 @@ const OrdersScreen = () => {
               letterSpacing: 0.5, 
               paddingBottom: 5,
             }}>You're Online</Text>
-          <Text style={{letterSpacing: 0.5, color: "grey"}}>Avaliable Orders: {orders.length}</Text>
+          <Text style={{letterSpacing: 0.5, color: "grey"}}>Available Orders: {orders.length}</Text>
         </View>
         <FlatList 
           data={orders}

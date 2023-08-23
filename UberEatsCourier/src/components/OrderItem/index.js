@@ -23,12 +23,12 @@ const OrderItem = ({ order }) => {
         onPress={() => navigation.navigate('OrdersDeliveryScreen', {id: order.id})}
       >
       <Image 
-        source={{uri: order.Restaurant.image}} 
+        source={{uri: order.restaurant.image}} 
         style={{width: '25%', height: '100%', borderBottomLeftRadius: 10, borderTopLeftRadius: 10}}
       />
       <View style={{flex: 1, marginLeft: 10, paddingVertical: 5}}>
-        <Text style={{fontSize: 18, fontWeight: '500'}}>{order.Restaurant.name}</Text>
-        <Text style={{color: 'grey'}}>{order.Restaurant.address}</Text>
+        <Text style={{fontSize: 18, fontWeight: '500'}}>{order.restaurant.name}</Text>
+        <Text style={{color: 'grey'}}>{order.restaurant.address}</Text>
         
         <Text style={{marginTop: 10}}>Delivery Details:</Text>
 

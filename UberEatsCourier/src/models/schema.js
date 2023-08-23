@@ -1,5 +1,94 @@
 export const schema = {
     "models": {
+        "Driver": {
+            "name": "Driver",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "name": {
+                    "name": "name",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "sub": {
+                    "name": "sub",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "lat": {
+                    "name": "lat",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "lng": {
+                    "name": "lng",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "transportationMode": {
+                    "name": "transportationMode",
+                    "isArray": false,
+                    "type": {
+                        "enum": "TransportationModes"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                }
+            },
+            "syncable": true,
+            "pluralName": "Drivers",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "allow": "public",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
         "User": {
             "name": "User",
             "fields": {
@@ -614,6 +703,24 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "Driver": {
+                    "name": "Driver",
+                    "isArray": false,
+                    "type": {
+                        "model": "Driver"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "HAS_ONE",
+                        "associatedWith": [
+                            "id"
+                        ],
+                        "targetNames": [
+                            "orderDriverId"
+                        ]
+                    }
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -632,6 +739,13 @@ export const schema = {
                 },
                 "orderRestaurantId": {
                     "name": "orderRestaurantId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "orderDriverId": {
+                    "name": "orderDriverId",
                     "isArray": false,
                     "type": "ID",
                     "isRequired": false,
@@ -774,6 +888,13 @@ export const schema = {
         }
     },
     "enums": {
+        "TransportationModes": {
+            "name": "TransportationModes",
+            "values": [
+                "DRIVING",
+                "BICYCLING"
+            ]
+        },
         "OrderStatus": {
             "name": "OrderStatus",
             "values": [
@@ -787,5 +908,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "81981cd042800d05d6af74a11aee7bd2"
+    "version": "2cdd3838897c585dfd31b85e4427d472"
 };

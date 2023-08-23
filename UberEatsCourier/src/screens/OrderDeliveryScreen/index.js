@@ -4,7 +4,7 @@ import BottomSheet from "@gorhom/bottom-sheet";
 import { FontAwesome5, Fontisto, Entypo, MaterialIcons, Ionicons } from "@expo/vector-icons";
 import orders from '../../../assets/data/orders.json';
 import styles from './styles';
-import MapView, { Marker , PROVIDER_GOOGLE} from "react-native-maps";
+import MapView, { Marker , PROVIDER_GOOGLE } from "react-native-maps";
 import * as Location from 'expo-location';
 import MapViewDirections from "react-native-maps-directions";
 import { GOOGLE_MAPS_APIKEY } from "@env";
@@ -123,9 +123,10 @@ const OrderDeliveryScreen = () => {
     <View style={styles.container}>
       <MapView 
         ref={mapRef}
+        //provider={PROVIDER_GOOGLE}
         style={{width, height}}
         showsUserLocation={true} 
-        followsUserLocation={true}
+        //followsUserLocation={true}
         initialRegion={{
           latitude: driverLocation.latitude,
           longitude: driverLocation.longitude,
@@ -145,7 +146,6 @@ const OrderDeliveryScreen = () => {
             : [] 
           }
           strokeColor='#3fc060'
-          provider={PROVIDER_GOOGLE}
           apikey={GOOGLE_MAPS_APIKEY}
           onReady={(result) => {
             //if (result.distance <= 0.1 ) {
