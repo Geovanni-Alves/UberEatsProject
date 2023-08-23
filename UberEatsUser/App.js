@@ -1,4 +1,6 @@
-import '@azure/core-asynciterator-polyfill';
+import 'core-js/full/symbol/async-iterator';
+import { DataStore } from 'aws-amplify';
+import { ExpoSQLiteAdapter } from '@aws-amplify/datastore-storage-adapter/ExpoSQLiteAdapter';
 import { StatusBar } from 'expo-status-bar';
 import RootNavigator from './src/navigation';
 import { NavigationContainer } from '@react-navigation/native'

@@ -1,4 +1,3 @@
-import '@azure/core-asynciterator-polyfill';
 import { useState, useEffect } from 'react';
 import { View,Text,StyleSheet, Pressable, ActivityIndicator } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';

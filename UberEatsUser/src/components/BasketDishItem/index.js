@@ -1,18 +1,19 @@
-import {View,Text,StyleSheet, FlatList } from 'react-native';
-
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 
 const BasketDishItem = ({ basketDish }) => {
-  console.log('Basket Dish:', basketDish); // Log the basketDish object
+  console.log(basketDish.Dish.Dish.name);
   return (
-  <View style={styles.row}>
-    <View style={styles.quantityContainer}>
-      <Text>{basketDish.quantity}</Text>
+    <View style={styles.row}>
+      <View style={styles.quantityContainer}>
+        <Text>{basketDish.quantity}</Text>
+      </View>
+      <Text style={{ fontWeight: '600' }}>{basketDish.Dish.name}</Text>
+      <Text style={{ marginLeft: 'auto' }}>$ {basketDish.Dish.price}</Text>
     </View>
-    <Text style={{fontWeight: '600'}}>{basketDish.dish?.name}</Text>
-    <Text style={{marginLeft: 'auto'}}>$ {basketDish.dish?.price}</Text>
-  </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   row:{

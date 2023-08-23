@@ -4,19 +4,18 @@ import { useBasketContext } from '../../contexts/BasketContext';
 import { useOrderContext } from '../../contexts/OrderContext';
 import { useNavigation } from '@react-navigation/native';
 
-//import restaurants from '../../ ../assets/data/restaurants.json';
-//const restaurant = restaurants[0];
 
 const BasketScreen = () => {
-  const { restaurant, basketDishes, totalPrice, dishes } = useBasketContext();
+  const { restaurant, basketDishes, totalPrice } = useBasketContext();
   const { createOrder } = useOrderContext();
   const navigation = useNavigation();
 
+  console.log("basketDishes:", basketDishes);
   const onCreateOrder = async () => {
     await createOrder();
     navigation.goBack();
   }
-  console.log(dishes)
+  //console.log(dishes)
   //console.log(totalPrice);
   return (
   <View style={styles.page}>

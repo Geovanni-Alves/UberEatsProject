@@ -8,8 +8,6 @@ import { useRoute, useNavigation } from '@react-navigation/native';
 import { DataStore } from "@aws-amplify/datastore";
 import { Restaurant, Dish } from "../../models";
 import { useBasketContext } from "../../contexts/BasketContext";
-//import '@azure/core-asynciterator-polyfill';
-//import 'core-js/full/symbol/async-iterator';
 
 const RestaurantDetailsPage = () => {
   const [restaurant, setRestaurant] = useState(null);
