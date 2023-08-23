@@ -145,6 +145,7 @@ const OrderDeliveryScreen = () => {
             : [] 
           }
           strokeColor='#3fc060'
+          provider={PROVIDER_GOOGLE}
           apikey={GOOGLE_MAPS_APIKEY}
           onReady={(result) => {
             //if (result.distance <= 0.1 ) {

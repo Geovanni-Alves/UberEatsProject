@@ -1,26 +1,24 @@
+import 'core-js/full/symbol/async-iterator';
 import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Navigation from "./src/navigation";
 import { NavigationContainer } from "@react-navigation/native";
-import 'core-js/full/symbol/async-iterator';
 import { withAuthenticator, useAuthenticator } from '@aws-amplify/ui-react-native';
 import AuthContextProvider from "./src/contexts/AuthContext";
-import { DataStore } from 'aws-amplify';
-import { ExpoSQLiteAdapter } from '@aws-amplify/datastore-storage-adapter/ExpoSQLiteAdapter';
 
-DataStore.configure({
-  storageAdapter: ExpoSQLiteAdapter
-});
+// import { DataStore } from 'aws-amplify';
+// import { ExpoSQLiteAdapter } from '@aws-amplify/datastore-storage-adapter/ExpoSQLiteAdapter';
+
+// DataStore.configure({
+//   storageAdapter: ExpoSQLiteAdapter
+// });
 
 // Aws Amplify config 
-import { Amplify } from '@aws-amplify/core';
-import config from './src/aws-exports';
-Amplify.configure({
-  ...config,
-  Analytics: {
-    disabled: true,
-  },
-});
+// Aws Amplify config 
+import { Amplify } from 'aws-amplify';
+import awsExports from './src/aws-exports';
+Amplify.configure(awsExports);
+
 
 function App() {
   return (

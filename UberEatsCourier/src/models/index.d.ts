@@ -18,13 +18,13 @@ type EagerUser = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
+  readonly sub: string;
   readonly name: string;
   readonly address: string;
   readonly lat: number;
   readonly lng: number;
-  readonly sub: string;
-  readonly Orders?: (Order | null)[] | null;
   readonly Baskets?: (Basket | null)[] | null;
+  readonly Orders?: (Order | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -35,13 +35,13 @@ type LazyUser = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
+  readonly sub: string;
   readonly name: string;
   readonly address: string;
   readonly lat: number;
   readonly lng: number;
-  readonly sub: string;
-  readonly Orders: AsyncCollection<Order>;
   readonly Baskets: AsyncCollection<Basket>;
+  readonly Orders: AsyncCollection<Order>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -60,7 +60,9 @@ type EagerBasketDish = {
   readonly id: string;
   readonly basketID: string;
   readonly quantity: number;
-  readonly dishs?: (DishBasketDish | null)[] | null;
+  readonly dishPrice?: number | null;
+  readonly dishName?: string | null;
+  readonly dishDescription?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -73,7 +75,9 @@ type LazyBasketDish = {
   readonly id: string;
   readonly basketID: string;
   readonly quantity: number;
-  readonly dishs: AsyncCollection<DishBasketDish>;
+  readonly dishPrice?: number | null;
+  readonly dishName?: string | null;
+  readonly dishDescription?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -84,144 +88,6 @@ export declare const BasketDish: (new (init: ModelInit<BasketDish>) => BasketDis
   copyOf(source: BasketDish, mutator: (draft: MutableModel<BasketDish>) => MutableModel<BasketDish> | void): BasketDish;
 }
 
-type EagerOrder = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Order, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly total: number;
-  readonly status: OrderStatus | keyof typeof OrderStatus;
-  readonly Restaurant?: Restaurant | null;
-  readonly OrderDishes?: (OrderDish | null)[] | null;
-  readonly userID: string;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-  readonly orderRestaurantId?: string | null;
-}
-
-type LazyOrder = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Order, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly total: number;
-  readonly status: OrderStatus | keyof typeof OrderStatus;
-  readonly Restaurant: AsyncItem<Restaurant | undefined>;
-  readonly OrderDishes: AsyncCollection<OrderDish>;
-  readonly userID: string;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-  readonly orderRestaurantId?: string | null;
-}
-
-export declare type Order = LazyLoading extends LazyLoadingDisabled ? EagerOrder : LazyOrder
-
-export declare const Order: (new (init: ModelInit<Order>) => Order) & {
-  copyOf(source: Order, mutator: (draft: MutableModel<Order>) => MutableModel<Order> | void): Order;
-}
-
-type EagerOrderDish = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<OrderDish, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly quantity: number;
-  readonly orderID: string;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-type LazyOrderDish = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<OrderDish, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly quantity: number;
-  readonly orderID: string;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-export declare type OrderDish = LazyLoading extends LazyLoadingDisabled ? EagerOrderDish : LazyOrderDish
-
-export declare const OrderDish: (new (init: ModelInit<OrderDish>) => OrderDish) & {
-  copyOf(source: OrderDish, mutator: (draft: MutableModel<OrderDish>) => MutableModel<OrderDish> | void): OrderDish;
-}
-
-type EagerBasket = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Basket, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly BasketDishes?: (BasketDish | null)[] | null;
-  readonly userID: string;
-  readonly restaurantID: string;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-type LazyBasket = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Basket, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly BasketDishes: AsyncCollection<BasketDish>;
-  readonly userID: string;
-  readonly restaurantID: string;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-export declare type Basket = LazyLoading extends LazyLoadingDisabled ? EagerBasket : LazyBasket
-
-export declare const Basket: (new (init: ModelInit<Basket>) => Basket) & {
-  copyOf(source: Basket, mutator: (draft: MutableModel<Basket>) => MutableModel<Basket> | void): Basket;
-}
-
-type EagerDish = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Dish, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly name: string;
-  readonly image?: string | null;
-  readonly description?: string | null;
-  readonly price: number;
-  readonly restaurantID: string;
-  readonly BasketDishes?: (DishBasketDish | null)[] | null;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-type LazyDish = {
-  readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<Dish, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
-  };
-  readonly id: string;
-  readonly name: string;
-  readonly image?: string | null;
-  readonly description?: string | null;
-  readonly price: number;
-  readonly restaurantID: string;
-  readonly BasketDishes: AsyncCollection<DishBasketDish>;
-  readonly createdAt?: string | null;
-  readonly updatedAt?: string | null;
-}
-
-export declare type Dish = LazyLoading extends LazyLoadingDisabled ? EagerDish : LazyDish
-
-export declare const Dish: (new (init: ModelInit<Dish>) => Dish) & {
-  copyOf(source: Dish, mutator: (draft: MutableModel<Dish>) => MutableModel<Dish> | void): Dish;
-}
-
 type EagerRestaurant = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<Restaurant, 'id'>;
@@ -229,12 +95,12 @@ type EagerRestaurant = {
   };
   readonly id: string;
   readonly name: string;
-  readonly image: string;
+  readonly image?: string | null;
   readonly deliveryFee: number;
   readonly minDeliveryTime: number;
   readonly maxDeliveryTime: number;
   readonly rating?: number | null;
-  readonly address: string;
+  readonly addres: string;
   readonly lat: number;
   readonly lng: number;
   readonly Dishes?: (Dish | null)[] | null;
@@ -250,12 +116,12 @@ type LazyRestaurant = {
   };
   readonly id: string;
   readonly name: string;
-  readonly image: string;
+  readonly image?: string | null;
   readonly deliveryFee: number;
   readonly minDeliveryTime: number;
   readonly maxDeliveryTime: number;
   readonly rating?: number | null;
-  readonly address: string;
+  readonly addres: string;
   readonly lat: number;
   readonly lng: number;
   readonly Dishes: AsyncCollection<Dish>;
@@ -270,36 +136,142 @@ export declare const Restaurant: (new (init: ModelInit<Restaurant>) => Restauran
   copyOf(source: Restaurant, mutator: (draft: MutableModel<Restaurant>) => MutableModel<Restaurant> | void): Restaurant;
 }
 
-type EagerDishBasketDish = {
+type EagerDish = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<DishBasketDish, 'id'>;
+    identifier: ManagedIdentifier<Dish, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly basketDishId?: string | null;
-  readonly dishId?: string | null;
-  readonly basketDish: BasketDish;
-  readonly dish: Dish;
+  readonly name: string;
+  readonly image?: string | null;
+  readonly description?: string | null;
+  readonly price: number;
+  readonly restaurantID: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
-type LazyDishBasketDish = {
+type LazyDish = {
   readonly [__modelMeta__]: {
-    identifier: ManagedIdentifier<DishBasketDish, 'id'>;
+    identifier: ManagedIdentifier<Dish, 'id'>;
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly basketDishId?: string | null;
-  readonly dishId?: string | null;
-  readonly basketDish: AsyncItem<BasketDish>;
-  readonly dish: AsyncItem<Dish>;
+  readonly name: string;
+  readonly image?: string | null;
+  readonly description?: string | null;
+  readonly price: number;
+  readonly restaurantID: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
-export declare type DishBasketDish = LazyLoading extends LazyLoadingDisabled ? EagerDishBasketDish : LazyDishBasketDish
+export declare type Dish = LazyLoading extends LazyLoadingDisabled ? EagerDish : LazyDish
 
-export declare const DishBasketDish: (new (init: ModelInit<DishBasketDish>) => DishBasketDish) & {
-  copyOf(source: DishBasketDish, mutator: (draft: MutableModel<DishBasketDish>) => MutableModel<DishBasketDish> | void): DishBasketDish;
+export declare const Dish: (new (init: ModelInit<Dish>) => Dish) & {
+  copyOf(source: Dish, mutator: (draft: MutableModel<Dish>) => MutableModel<Dish> | void): Dish;
+}
+
+type EagerOrderDish = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<OrderDish, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly orderID: string;
+  readonly quantity: number;
+  readonly dishPrice?: number | null;
+  readonly dishName?: string | null;
+  readonly dishDescription?: string | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyOrderDish = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<OrderDish, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly orderID: string;
+  readonly quantity: number;
+  readonly dishPrice?: number | null;
+  readonly dishName?: string | null;
+  readonly dishDescription?: string | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type OrderDish = LazyLoading extends LazyLoadingDisabled ? EagerOrderDish : LazyOrderDish
+
+export declare const OrderDish: (new (init: ModelInit<OrderDish>) => OrderDish) & {
+  copyOf(source: OrderDish, mutator: (draft: MutableModel<OrderDish>) => MutableModel<OrderDish> | void): OrderDish;
+}
+
+type EagerOrder = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Order, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly status?: OrderStatus | keyof typeof OrderStatus | null;
+  readonly OrderDishes?: (OrderDish | null)[] | null;
+  readonly Restaurant?: Restaurant | null;
+  readonly userID: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly orderRestaurantId?: string | null;
+}
+
+type LazyOrder = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Order, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly status?: OrderStatus | keyof typeof OrderStatus | null;
+  readonly OrderDishes: AsyncCollection<OrderDish>;
+  readonly Restaurant: AsyncItem<Restaurant | undefined>;
+  readonly userID: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly orderRestaurantId?: string | null;
+}
+
+export declare type Order = LazyLoading extends LazyLoadingDisabled ? EagerOrder : LazyOrder
+
+export declare const Order: (new (init: ModelInit<Order>) => Order) & {
+  copyOf(source: Order, mutator: (draft: MutableModel<Order>) => MutableModel<Order> | void): Order;
+}
+
+type EagerBasket = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Basket, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly BasketDishes?: (BasketDish | null)[] | null;
+  readonly restaurantID: string;
+  readonly userID: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyBasket = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Basket, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly BasketDishes: AsyncCollection<BasketDish>;
+  readonly restaurantID: string;
+  readonly userID: string;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type Basket = LazyLoading extends LazyLoadingDisabled ? EagerBasket : LazyBasket
+
+export declare const Basket: (new (init: ModelInit<Basket>) => Basket) & {
+  copyOf(source: Basket, mutator: (draft: MutableModel<Basket>) => MutableModel<Basket> | void): Basket;
 }
