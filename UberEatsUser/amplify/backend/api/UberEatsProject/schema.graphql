@@ -22,6 +22,9 @@ type BasketDish @model @auth(rules: [{allow: public}]) {
   basketID: ID! @index(name: "byBasket")
   quantity: Int!
   Dish: Dish @hasOne
+  dishPrice: Float
+  dishName: String
+  dishDescription: String
 }
 
 type Restaurant @model @auth(rules: [{allow: public}]) {
@@ -53,6 +56,9 @@ type OrderDish @model @auth(rules: [{allow: public}]) {
   orderID: ID! @index(name: "byOrder")
   quantity: Int!
   Dish: Dish @hasOne
+  dishPrice: Float
+  dishName: String
+  dishDescription: String
 }
 
 type Order @model @auth(rules: [{allow: public}]) {

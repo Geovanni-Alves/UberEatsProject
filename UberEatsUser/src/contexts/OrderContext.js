@@ -44,7 +44,10 @@ const OrderContextProvider = ({ children }) => {
           new OrderDish({ 
             quantity: basketDish.quantity,
             orderID: newOrder.id,
-            Dish: basketDish.Dish, 
+            //Dish: basketDish.Dish, 
+            dishName: basketDish.dishName,
+            dishPrice: basketDish.dishPrice,
+            dishDescription: basketDish.dishDescription,
           })
         )
       )

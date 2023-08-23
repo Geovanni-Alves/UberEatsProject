@@ -1,5 +1,4 @@
 import { View, Text, Image, FlatList, ActivityIndicator } from 'react-native';
-
 import orders from '../../../assets/data/orders.json';
 import restaurants from '../../../assets/data/restaurants.json';
 

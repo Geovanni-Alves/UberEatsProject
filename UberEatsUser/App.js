@@ -23,9 +23,9 @@ function App() {
     <NavigationContainer>
       <AuthContextProvider>
         <BasketContextProvider>
-          {/* <OrderContextProvider> */}
+          <OrderContextProvider>
             <RootNavigator />
-          {/* </OrderContextProvider> */}
+          </OrderContextProvider>
         </BasketContextProvider>
       </AuthContextProvider>
       

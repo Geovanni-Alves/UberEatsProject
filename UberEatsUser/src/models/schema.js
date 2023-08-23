@@ -161,6 +161,27 @@ export const schema = {
                         ]
                     }
                 },
+                "dishPrice": {
+                    "name": "dishPrice",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "dishName": {
+                    "name": "dishName",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "dishDescription": {
+                    "name": "dishDescription",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -504,6 +525,27 @@ export const schema = {
                         ]
                     }
                 },
+                "dishPrice": {
+                    "name": "dishPrice",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "dishName": {
+                    "name": "dishName",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "dishDescription": {
+                    "name": "dishDescription",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -795,5 +837,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "8035b7a3b4e997b87c6a6bd9d00832e5"
+    "version": "851da64e9e439840fccde5aa97c1f1ab"
 };
