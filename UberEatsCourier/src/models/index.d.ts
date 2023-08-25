@@ -8,6 +8,7 @@ export enum TransportationModes {
 }
 
 export enum OrderStatus {
+  ACCEPTED = "ACCEPTED",
   NEW = "NEW",
   COOKING = "COOKING",
   READY_FOR_PICKUP = "READY_FOR_PICKUP",
@@ -146,6 +147,7 @@ type EagerRestaurant = {
   readonly lng: number;
   readonly Dishes?: (Dish | null)[] | null;
   readonly Baskets?: (Basket | null)[] | null;
+  readonly address?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -167,6 +169,7 @@ type LazyRestaurant = {
   readonly lng: number;
   readonly Dishes: AsyncCollection<Dish>;
   readonly Baskets: AsyncCollection<Basket>;
+  readonly address?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

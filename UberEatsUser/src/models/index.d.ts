@@ -2,7 +2,13 @@ import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier } from "@aws-
 // @ts-ignore
 import { LazyLoading, LazyLoadingDisabled, AsyncCollection, AsyncItem } from "@aws-amplify/datastore";
 
+export enum TransportationModes {
+  DRIVING = "DRIVING",
+  BICYCLING = "BICYCLING"
+}
+
 export enum OrderStatus {
+  ACCEPTED = "ACCEPTED",
   NEW = "NEW",
   COOKING = "COOKING",
   READY_FOR_PICKUP = "READY_FOR_PICKUP",
@@ -11,6 +17,42 @@ export enum OrderStatus {
 }
 
 
+
+type EagerDriver = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Driver, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly name: string;
+  readonly sub: string;
+  readonly lat: number;
+  readonly lng: number;
+  readonly transportationMode?: TransportationModes | keyof typeof TransportationModes | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+type LazyDriver = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Driver, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly name: string;
+  readonly sub: string;
+  readonly lat: number;
+  readonly lng: number;
+  readonly transportationMode?: TransportationModes | keyof typeof TransportationModes | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+}
+
+export declare type Driver = LazyLoading extends LazyLoadingDisabled ? EagerDriver : LazyDriver
+
+export declare const Driver: (new (init: ModelInit<Driver>) => Driver) & {
+  copyOf(source: Driver, mutator: (draft: MutableModel<Driver>) => MutableModel<Driver> | void): Driver;
+}
 
 type EagerUser = {
   readonly [__modelMeta__]: {
@@ -105,6 +147,7 @@ type EagerRestaurant = {
   readonly lng: number;
   readonly Dishes?: (Dish | null)[] | null;
   readonly Baskets?: (Basket | null)[] | null;
+  readonly address?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -126,6 +169,7 @@ type LazyRestaurant = {
   readonly lng: number;
   readonly Dishes: AsyncCollection<Dish>;
   readonly Baskets: AsyncCollection<Basket>;
+  readonly address?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -218,9 +262,11 @@ type EagerOrder = {
   readonly OrderDishes?: (OrderDish | null)[] | null;
   readonly Restaurant?: Restaurant | null;
   readonly userID: string;
+  readonly Driver?: Driver | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly orderRestaurantId?: string | null;
+  readonly orderDriverId?: string | null;
 }
 
 type LazyOrder = {
@@ -233,9 +279,11 @@ type LazyOrder = {
   readonly OrderDishes: AsyncCollection<OrderDish>;
   readonly Restaurant: AsyncItem<Restaurant | undefined>;
   readonly userID: string;
+  readonly Driver: AsyncItem<Driver | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
   readonly orderRestaurantId?: string | null;
+  readonly orderDriverId?: string | null;
 }
 
 export declare type Order = LazyLoading extends LazyLoadingDisabled ? EagerOrder : LazyOrder

@@ -1,6 +1,6 @@
 import { useRef, useMemo, useState, useEffect } from "react";
-import { View, Text, FlatList, useWindowDimensions, } from 'react-native';
-import BottomSheet from "@gorhom/bottom-sheet";
+import { View, Text, useWindowDimensions, } from 'react-native';
+import BottomSheet, { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 import OrderItem from "../../components/OrderItem";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { Entypo } from '@expo/vector-icons';
@@ -17,7 +17,7 @@ const OrdersScreen = () => {
 
   useEffect(() => {
     const fetchOrdersWithRestaurants = async () => {
-      const queriedOrders = await DataStore.query(Order);
+      const queriedOrders = await DataStore.query(Order, (filterOrder) => filterOrder.status.eq("READY_FOR_PICKUP"));
       const orderPromises = queriedOrders.map(async (order) => {
         const associatedRestaurant = await DataStore.query(Restaurant, order.orderRestaurantId);
         return { ...order, restaurant: associatedRestaurant };
@@ -27,6 +27,7 @@ const OrdersScreen = () => {
     };
 
     fetchOrdersWithRestaurants();
+    
   }, []);
 
   return (
@@ -71,7 +72,7 @@ const OrdersScreen = () => {
             }}>You're Online</Text>
           <Text style={{letterSpacing: 0.5, color: "grey"}}>Available Orders: {orders.length}</Text>
         </View>
-        <FlatList 
+        <BottomSheetFlatList 
           data={orders}
           renderItem={({item}) => <OrderItem order={item} />}
         />

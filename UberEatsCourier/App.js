@@ -1,10 +1,11 @@
 import 'core-js/full/symbol/async-iterator';
+import { withAuthenticator, useAuthenticator } from '@aws-amplify/ui-react-native';
 import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Navigation from "./src/navigation";
 import { NavigationContainer } from "@react-navigation/native";
-import { withAuthenticator, useAuthenticator } from '@aws-amplify/ui-react-native';
 import AuthContextProvider from "./src/contexts/AuthContext";
+import OrderContextProvider from "./src/contexts/OrderContext";
 
 // import { DataStore } from 'aws-amplify';
 // import { ExpoSQLiteAdapter } from '@aws-amplify/datastore-storage-adapter/ExpoSQLiteAdapter';
@@ -15,17 +16,19 @@ import AuthContextProvider from "./src/contexts/AuthContext";
 
 // Aws Amplify config 
 // Aws Amplify config 
-import { Amplify } from 'aws-amplify';
+import { Amplify, Auth } from 'aws-amplify';
 import awsExports from './src/aws-exports';
 Amplify.configure(awsExports);
-
+Auth.configure(awsExports);
 
 function App() {
   return (
     <NavigationContainer>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <AuthContextProvider>
-          <Navigation />
+          <OrderContextProvider>
+            <Navigation />
+          </OrderContextProvider>
         </AuthContextProvider>
       </GestureHandlerRootView>
       <StatusBar style="auto" />

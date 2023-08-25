@@ -20,7 +20,7 @@ const OrderItem = ({ order }) => {
         borderColor: '#3FC060', 
         borderWidth: 2, 
         borderRadius: 12}}
-        onPress={() => navigation.navigate('OrdersDeliveryScreen', {id: order.id})}
+        onPress={() => navigation.navigate('OrdersDeliveryScreen', {id: order.id, orderWithRestaurant: order})}
       >
       <Image 
         source={{uri: order.restaurant.image}} 

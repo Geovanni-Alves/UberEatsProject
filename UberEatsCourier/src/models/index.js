@@ -8,6 +8,7 @@ const TransportationModes = {
 };
 
 const OrderStatus = {
+  "ACCEPTED": "ACCEPTED",
   "NEW": "NEW",
   "COOKING": "COOKING",
   "READY_FOR_PICKUP": "READY_FOR_PICKUP",

@@ -409,6 +409,13 @@ export const schema = {
                         ]
                     }
                 },
+                "address": {
+                    "name": "address",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -898,6 +905,7 @@ export const schema = {
         "OrderStatus": {
             "name": "OrderStatus",
             "values": [
+                "ACCEPTED",
                 "NEW",
                 "COOKING",
                 "READY_FOR_PICKUP",
@@ -908,5 +916,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "2cdd3838897c585dfd31b85e4427d472"
+    "version": "abc58807574cf94d20a28f4526fc46d7"
 };
