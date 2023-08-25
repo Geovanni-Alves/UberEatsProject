@@ -10,9 +10,6 @@ const OrderContextProvider = ({ children }) => {
   const [ activeOrder, setActiveOrder ] = useState();
 
   const acceptOrder = (order) => {
-    console.log('object order',order);
-    //console.log(dbDriver);
-    // update the order, and change status and assign the driver 
     DataStore.save(
       Order.copyOf(order, (updated) => {
         updated.status = "ACCEPTED"; 

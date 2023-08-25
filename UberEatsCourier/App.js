@@ -15,7 +15,6 @@ import OrderContextProvider from "./src/contexts/OrderContext";
 // });
 
 // Aws Amplify config 
-// Aws Amplify config 
 import { Amplify, Auth } from 'aws-amplify';
 import awsExports from './src/aws-exports';
 Amplify.configure(awsExports);

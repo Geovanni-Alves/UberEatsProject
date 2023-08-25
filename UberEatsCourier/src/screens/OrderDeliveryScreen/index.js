@@ -18,7 +18,6 @@ const ORDER_STATUSES = {
   ACCEPTED: "ACCEPTED",
   PICKED_UP: "PICKED_UP",
 }
-
 const OrderDeliveryScreen = () => {
   const [user, setUser] = useState(null);
   //const [order, setOrder] = useState(null);
@@ -42,16 +41,41 @@ const OrderDeliveryScreen = () => {
   const route = useRoute();
   const id = route.params?.id;
   const [order, setOrder] = useState(null);
-  const [restaurant, setRestaurant] = useState(null);
+  const [orderFromModel, setOrderFromModel] = useState(null);
+
   //const order = route.params?.orderWithRestaurant; 
 
   useEffect(() => {
     if (!id) {
       return;
     }
-    DataStore.query(Order, id).then(setOrder);
-  },[id])
-  console.log('order object order delivey screen ',order);
+    (async () => {
+      const order = await DataStore.query(Order, id)
+      const orderFromModel = await DataStore.query(Order, id)
+      setOrder(order);
+      setOrderFromModel(orderFromModel);
+    })();
+
+  },[id]);
+
+  useEffect(() => {
+    if (!order) {
+      return;
+    }
+
+    const fetchRestaurantAndMerge = async () => {
+      try {
+        const restaurantFromQuery = await DataStore.query(Restaurant, order.orderRestaurantId);
+        const mergedOrder = { ...order, Restaurant: restaurantFromQuery };
+        setOrder(mergedOrder);
+      } catch (error) {
+        console.error("Error fetching restaurant:", error);
+      }
+  };
+
+  fetchRestaurantAndMerge();
+}, [order]);
+
   useEffect(() => {
     if (!order) {
       return;
@@ -59,7 +83,7 @@ const OrderDeliveryScreen = () => {
     DataStore.query(User, order.userID).then(setUser);
     DataStore.query(OrderDish, od => od.orderID.eq(order.id)).then(setDishItems);
 
-  },[order])
+  },[order]);
 
   //console.log('object user: ',user);
   useEffect (() => {
@@ -104,8 +128,7 @@ const OrderDeliveryScreen = () => {
         longitudeDelta: 0.01,
       });
       setDeliveryStatus(ORDER_STATUSES.ACCEPTED);
-      console.log('object order before pass to context: ',order)
-      acceptOrder(order);
+      acceptOrder(orderFromModel);
     }
     if (deliveryStatus === ORDER_STATUSES.ACCEPTED){
       bottomSheetRef.current?.collapse();
@@ -143,8 +166,8 @@ const OrderDeliveryScreen = () => {
     return true;
   }
   const restaurantLocation = {
-    latitude: order?.restaurant.lat, 
-    longitude: order?.restaurant.lng
+    latitude: order?.Restaurant.lat, 
+    longitude: order?.Restaurant.lng
   };
   const deliveryLocation = {
     latitude: user?.lat, 
@@ -157,7 +180,7 @@ const OrderDeliveryScreen = () => {
   if (!order || !user || !driverLocation){
     return <ActivityIndicator style={{padding: 50}} size={'large'} color='gray'/>
   }
-
+  //console.log(order);
   //console.log(dishItems);
  
   return (
@@ -199,11 +222,11 @@ const OrderDeliveryScreen = () => {
         />
         <Marker
           coordinate={{
-            latitude: order.restaurant.lat, 
-            longitude: order.restaurant.lng
+            latitude: order.Restaurant.lat, 
+            longitude: order.Restaurant.lng
           }}
-          title={order.restaurant.name}
-          description={order.restaurant.address}
+          title={order.Restaurant.name}
+          description={order.Restaurant.address}
         >
           <View style={{backgroundColor: 'green', padding: 5, borderRadius: 15}}>
             <Entypo name='shop' size={30} color='white' />
@@ -247,7 +270,7 @@ const OrderDeliveryScreen = () => {
           <View style={styles.deliveryDetailsContainer}>
             <Text 
               style={styles.restaurantName}>
-              {order.restaurant.name}
+              {order.Restaurant.name}
             </Text>
             <View style={styles.addressContainer}> 
               <Fontisto 
@@ -257,7 +280,7 @@ const OrderDeliveryScreen = () => {
               />
               <Text 
                 style={styles.addressText}>
-                {order.restaurant.address}
+                {order.Restaurant.address}
               </Text>
             </View>
             <View style={styles.addressContainer}> 
