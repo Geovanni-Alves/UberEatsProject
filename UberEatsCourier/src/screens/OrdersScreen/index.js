@@ -6,6 +6,7 @@ import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { Entypo } from '@expo/vector-icons';
 import { DataStore } from "aws-amplify";
 import { Order, Restaurant } from '../../models';
+import CustomMarker from "../../components/CustomMarker";
 
 const OrdersScreen = () => {
   const [orders, setOrders] = useState([]);
@@ -40,24 +41,9 @@ const OrdersScreen = () => {
         //provider={PROVIDER_GOOGLE}
         showsUserLocation={true} 
         followsUserLocation={true}
-   
       >
         {orders.map((order) => (
-          <Marker 
-            key={order.id}
-            title={order.restaurant.name} 
-            description={order.restaurant.address} 
-            coordinate={{
-              //latitude: location?.coords.latitude,
-              //longitude: location?.coords.longitude,
-              latitude: order.restaurant.lat, //37.771849, 
-              longitude: order.restaurant.lng //-122.422899
-            }}
-          >
-            <View style={{backgroundColor: 'green', padding: 5, borderRadius: 15}}>
-              <Entypo name="shop" size={24} color='white' />
-            </View>
-          </Marker>
+          <CustomMarker key={order.id} data={order.restaurant} type="RESTAURANT" />
         ))}
         
       </MapView>
