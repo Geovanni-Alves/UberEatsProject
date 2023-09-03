@@ -60,7 +60,8 @@ const OrderContextProvider = ({ children }) => {
         }
       }
     ) 
-  },[orderFromModel?.id])  ;
+    return () => subscription.unsubscribe();
+  },[orderFromModel?.id]);
 
 
   useEffect(() => {

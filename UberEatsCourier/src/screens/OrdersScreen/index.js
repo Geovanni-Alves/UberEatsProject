@@ -1,22 +1,23 @@
 import { useRef, useMemo, useState, useEffect } from "react";
-import { View, Text, useWindowDimensions, } from 'react-native';
+import { View, Text, useWindowDimensions, ActivityIndicator, } from 'react-native';
 import BottomSheet, { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 import OrderItem from "../../components/OrderItem";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
-import { Entypo } from '@expo/vector-icons';
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import * as Location from 'expo-location';
 import { DataStore } from "aws-amplify";
 import { Order, Restaurant } from '../../models';
 import CustomMarker from "../../components/CustomMarker";
 
 const OrdersScreen = () => {
   const [orders, setOrders] = useState([]);
+  const [driverLocation, setDriverLocation] = useState(null);
   const bottomSheetRef = useRef(null);
   const { width, height } = useWindowDimensions();
   
-  const snapPoints = useMemo(() => ["12%", "95%"],[])
   
+  const snapPoints = useMemo(() => ["12%", "95%"],[])
 
-  useEffect(() => {
+  const fetchOrders = () => {
     const fetchOrdersWithRestaurants = async () => {
       const queriedOrders = await DataStore.query(Order, (filterOrder) => filterOrder.status.eq("READY_FOR_PICKUP"));
       const orderPromises = queriedOrders.map(async (order) => {
@@ -26,11 +27,39 @@ const OrdersScreen = () => {
       const ordersWithRestaurants = await Promise.all(orderPromises);
       setOrders(ordersWithRestaurants);
     };
-
     fetchOrdersWithRestaurants();
-    
+  };
+
+  useEffect(() => {
+    fetchOrders();
+    const subscription = DataStore.observe(Order).subscribe(msg => {
+      if(msg.opType === "UPDATE") {
+        fetchOrders();  
+      }
+    });
+    return  () => subscription.unsubscribe();
   }, []);
 
+  useEffect (() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (!status === 'granted') {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+      let location = await Location.getCurrentPositionAsync({accuracy: 3 });
+      setDriverLocation({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude
+      });
+  })();
+  },[]);
+
+  if (!driverLocation) {
+    return <ActivityIndicator style={{padding: 50}} size={'large'} color='gray'/>
+  }
+
+  //console.log(orders)
   return (
     <View style={{ backgroundColor: "lightblue", flex: 1}}>
       <MapView 
@@ -39,8 +68,14 @@ const OrdersScreen = () => {
           width,
         }} 
         //provider={PROVIDER_GOOGLE}
-        showsUserLocation={true} 
-        followsUserLocation={true}
+        showsUserLocation
+        followsUserLocation
+        initialRegion={{
+          latitude: driverLocation.latitude,
+          longitude: driverLocation.longitude,
+          latitudeDelta: 0.07,
+          longitudeDelta: 0.07
+        }}
       >
         {orders.map((order) => (
           <CustomMarker key={order.id} data={order.restaurant} type="RESTAURANT" />

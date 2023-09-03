@@ -13,6 +13,9 @@ import OrderContextProvider from "./src/contexts/OrderContext";
 // DataStore.configure({
 //   storageAdapter: ExpoSQLiteAdapter
 // });
+// ignore warning logs
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(["Setting a timer"]);
 
 // Aws Amplify config 
 import { Amplify, Auth } from 'aws-amplify';

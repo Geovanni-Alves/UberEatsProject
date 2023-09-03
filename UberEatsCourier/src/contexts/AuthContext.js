@@ -9,6 +9,7 @@ const AuthContext = createContext({});
 const AuthContextProvider = ({children}) => {
   const [authUser, setAuthUser] = useState(null);
   const [dbDriver, setDbDriver] = useState(null);
+  const [loading, setLoading] = useState(true);
   const sub = authUser?.attributes?.sub;
 
   useEffect(() => {
@@ -16,13 +17,32 @@ const AuthContextProvider = ({children}) => {
   },[]);
 
   useEffect(() => {
-    DataStore.query(Driver, (driver) => driver.sub.eq(sub)).then((drivers) => 
-      setDbDriver(drivers[0])
+    if (!sub) {
+      return;
+    }
+    DataStore.query(Driver, (driver) => driver.sub.eq(sub)).then(
+      (drivers) => {
+      setDbDriver(drivers[0]);
+      setLoading(false);
+      }
     );
   },[sub]);
   
+  useEffect(() => {
+    if (!dbDriver) {
+      return;
+    }
+    const subscription = DataStore.observe(Driver, dbDriver.id).subscribe(
+      (msg) => {
+      if (msg.opType === "UPDATE") {
+        setDbDriver(msg.element);
+      }
+    })
+    return () => subscription.unsubscribe();
+  },[dbDriver])
+  
   return (
-    <AuthContext.Provider value={{ authUser, dbDriver, sub, setDbDriver }}>
+    <AuthContext.Provider value={{ authUser, dbDriver, sub, setDbDriver, loading }}>
       {children}
     </AuthContext.Provider>
   );

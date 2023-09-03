@@ -10,6 +10,10 @@ import { useOrderContext } from "../../contexts/OrderContext";
 import BottomSheetDetails from "./BottomSheetDetails";
 import CustomMarker from "../../components/CustomMarker";
 import { Ionicons } from '@expo/vector-icons';
+import { DataStore } from "aws-amplify";
+import { Driver } from '../../models';
+import { useAuthContext } from "../../contexts/AuthContext";
+
 
 const OrderDeliveryScreen = () => {
   //const [dishItems, setDishItems] = useState([]);
@@ -31,6 +35,8 @@ const OrderDeliveryScreen = () => {
     pickUpOrder
   } = useOrderContext();
 
+  const { dbDriver } = useAuthContext();
+
   const navigation = useNavigation();
   const route = useRoute();
   const id = route.params?.id;
@@ -38,6 +44,17 @@ const OrderDeliveryScreen = () => {
   useEffect(() => {
     fetchOrder(id);
   }, [id]);
+
+  useEffect(() => {
+    if (!driverLocation) {
+      return;
+    }
+    DataStore.save(Driver.copyOf(dbDriver,(updated) => {
+      updated.lat = driverLocation.latitude
+      updated.lng = driverLocation.longitude
+    })
+  );
+  },[driverLocation])
 
   useEffect (() => {
     (async () => {
@@ -52,6 +69,7 @@ const OrderDeliveryScreen = () => {
         longitude: location.coords.longitude
       });
     })();
+    
     const foregroundSubscription = Location.watchPositionAsync(
       {
         accuracy: Location.Accuracy.High,
@@ -66,6 +84,7 @@ const OrderDeliveryScreen = () => {
     )
     return () => foregroundSubscription;
   }, []);
+  
   const zoomInOnDriver = () => {
     mapRef.current.animateToRegion({
       latitude: driverLocation.latitude,
@@ -91,7 +110,8 @@ const OrderDeliveryScreen = () => {
   if (!order || !user || !driverLocation){
     return <ActivityIndicator style={{padding: 50}} size={'large'} color='gray'/>
   }
-  //console.log(order);
+  //console.log('order = ',order.status);
+  //console.log('orderFromModel = ',orderFromModel);
   //console.log(dishItems);
  
   return (
@@ -139,13 +159,13 @@ const OrderDeliveryScreen = () => {
         totalMinutes={totalMinutes} 
         onAccepted={zoomInOnDriver}
       />
-      {order.status === "READY_FOR_PICKUP " && (
+      {order.status === "READY_FOR_PICKUP" && (
         <Ionicons 
           onPress={() => navigation.goBack()}
           name='arrow-back-circle'
           size={45}
           color='black'
-          style={{top: 40, left: 15, position: 'absolute'}}
+          style={{ top: 40, left: 15, position: 'absolute'}}
         />
       )}
     </View>
