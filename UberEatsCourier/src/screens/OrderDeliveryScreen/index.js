@@ -63,7 +63,7 @@ const OrderDeliveryScreen = () => {
         setErrorMsg('Permission to access location was denied');
         return;
       }
-      let location = await Location.getCurrentPositionAsync({accuracy: 3 });
+      let location = await Location.getCurrentPositionAsync({accuracy: 5 });
       setDriverLocation({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude
@@ -72,8 +72,8 @@ const OrderDeliveryScreen = () => {
     
     const foregroundSubscription = Location.watchPositionAsync(
       {
-        accuracy: Location.Accuracy.High,
-        distanceInterval: 500,
+        accuracy: Location.Accuracy.BestForNavigation,
+        distanceInterval: 5,
       }, 
       (updatedLocation) => {
         setDriverLocation({
@@ -89,8 +89,8 @@ const OrderDeliveryScreen = () => {
     mapRef.current.animateToRegion({
       latitude: driverLocation.latitude,
       longitude: driverLocation.longitude,
-      latitudeDelta: 0.01,
-      longitudeDelta: 0.01,
+      latitudeDelta: 0.001,
+      longitudeDelta: 0.001,
     });
   }
 
@@ -118,7 +118,7 @@ const OrderDeliveryScreen = () => {
     <View style={styles.container}>
       <MapView 
         ref={mapRef}
-        //provider={PROVIDER_GOOGLE}
+        provider={PROVIDER_GOOGLE}
         style={{width, height}}
         showsUserLocation={true} 
         followsUserLocation={true}

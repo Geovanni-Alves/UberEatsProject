@@ -48,7 +48,7 @@ const HomeTabs = () => {
         }} 
       />
       <Tab.Screen 
-        name='Orders' 
+        name='OrdersTab' 
         component={OrderStackNavigator}
         options={{
           tabBarIcon: ({color}) => (<MaterialIcons name="list-alt" size={24} color={color} />
