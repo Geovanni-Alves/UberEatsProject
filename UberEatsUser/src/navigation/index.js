@@ -10,6 +10,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 //import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { Foundation, FontAwesome5, MaterialIcons } from '@expo/vector-icons';
 import { useAuthContext } from "../contexts/AuthContext";
+import OrderDetailsNavigator from "./OrderDetailsNavigator";
 
 const Stack = createNativeStackNavigator();
 
@@ -81,11 +82,14 @@ const HomeStackNavigator = () =>{
 
 const OrdersStack = createNativeStackNavigator();
 
-const OrderStackNavigator = () =>{
+const OrderStackNavigator = () => {
   return (
     <OrdersStack.Navigator>
       <OrdersStack.Screen name='Orders' component={OrdersScreen}/>
-      <OrdersStack.Screen name='Order' component={OrderDetails}/>
+      <OrdersStack.Screen 
+        name='Order' 
+        component={OrderDetailsNavigator} 
+        screenOptions={{ headerShown: false }} />
     </OrdersStack.Navigator>
   )
 }

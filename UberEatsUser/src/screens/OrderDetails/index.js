@@ -1,28 +1,23 @@
 import { View, Text, Image, FlatList, ActivityIndicator } from 'react-native';
-import orders from '../../../assets/data/orders.json';
-import restaurants from '../../../assets/data/restaurants.json';
 
 import styles from './styles';
-import DishListItem from '../../components/DishListItem';
-import OrderListItem from '../../components/OrderListItem';
 import BasketDishItem from '../../components/BasketDishItem';
 import { useOrderContext } from '../../contexts/OrderContext';
 import { useEffect, useState } from 'react';
-import { useRoute } from '@react-navigation/native';
 
-const order = orders[0];
+//const order = orders[0];
 
 const OrderDetailsHeader = ({order}) => {
-  
+  //console.log (order)
   return (
     <View>
       <View style={styles.page}>
         <Image 
-          source={{ uri: order.Restaurant.image }} 
+          source={{ uri: order.restaurant[0].image }} 
           style={styles.image} 
         />
         <View style={styles.container}>
-          <Text style={styles.title}>{order.Restaurant.name}</Text>
+          <Text style={styles.title}>{order.restaurant[0].name}</Text>
           <Text style={styles.subtitle}>{order.status} &#8226; </Text>
           
           <Text style={styles.menuTitle}>Your orders</Text>
@@ -32,16 +27,15 @@ const OrderDetailsHeader = ({order}) => {
   )
 };
 
-const OrderDetails = () => {
+const OrderDetails = ({id}) => {
   const [order, setOrder] = useState();
   const { getOrder } = useOrderContext();
-  const route = useRoute();
-  const id = route.params?.id;
 
+  
   useEffect(()=>{
     getOrder(id).then(setOrder);
   },[])
-
+  //console.log('order object inside order details screen', order)
   if (!order) {
     return <ActivityIndicator size={"large"} color="gray" />
   }

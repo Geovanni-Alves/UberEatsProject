@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { DataStore } from 'aws-amplify';
-import { Order, OrderDish, Basket } from '../models';
+import { Order, OrderDish, Basket, Restaurant } from '../models';
 import { useAuthContext } from "./AuthContext";
 import { useBasketContext } from "./BasketContext";
 
@@ -13,17 +13,37 @@ const OrderContextProvider = ({ children }) => {
   
   const [ orders, setOrders ] = useState([]);
 
+  const fetchOrders =  async () => {
+    if (dbUser) {
+      const mergedOrders = [];
+      //console.log('useEffect dispared',dbUser);
+      
+      try {
+        const orders = await DataStore
+          .query(Order, (o) => o.userID.eq(dbUser.id
+        ));
+    
+        for (const order of orders) {
+          const orderRestaurant = await DataStore
+            .query(Restaurant, (r) => r.id.eq(order.orderRestaurantId
+          ));
+
+          const mergedOrder = { ...order, restaurant: orderRestaurant[0] }; 
+          mergedOrders.push(mergedOrder);
+        }
+      
+        setOrders(mergedOrders);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+      }
+    }
+  }
 
 
   useEffect(() => {
-    if (dbUser) {
-      //console.log('useEffect dispared',dbUser);
-      DataStore
-        .query(Order, (o) => o.userID.eq(dbUser.id))
-        .then(setOrders);
-    }
+    fetchOrders();
   },[dbUser]);
-
+  //console.log('orders object ',orders);
 
   const createOrder = async () => {
     //console.warn("abs");
@@ -62,9 +82,12 @@ const OrderContextProvider = ({ children }) => {
     const orderDishes = await DataStore.query(OrderDish, (od) => 
       od.orderID.eq(id)
     );
-    return {...order, dishes: orderDishes};
+    const orderRestaurant = await DataStore.query(Restaurant, (r) =>
+      r.id.eq(order.orderRestaurantId)
+    );
+    return {...order, dishes: orderDishes, restaurant: orderRestaurant};
   }
-
+ 
   return (
     <OrderContext.Provider value ={{ createOrder, orders, getOrder }}>
       {children}
