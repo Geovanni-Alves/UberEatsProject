@@ -25,6 +25,7 @@
     "amazon-cognito-identity-js": "^6.3.3",
     "aws-amplify": "^5.3.8",
     "core-js": "^3.32.1",
+    "dotenv": "^16.3.1",
     "expo": "^49.0.0",
     "expo-file-system": "~15.4.3",
     "expo-sqlite": "~11.3.2",
